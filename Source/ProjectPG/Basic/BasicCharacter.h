@@ -64,9 +64,17 @@ public:
 	void StartFire();
 	void EndFire();
 
+	void OnFire();
+
 	void StartIronsight();
 	void EndIronsight();
 
 	void StartCrouch();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpringArm")
+	FVector NormalSpringArmPosition;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpringArm")
+	FVector CrouchSpringArmPosition;
 	
 };

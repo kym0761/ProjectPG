@@ -4,7 +4,7 @@
 #include "BasicPlayerCameraManager.h"
 #include "BasicCharacter.h"
 //#include "BasicPlayerController.h"
-
+#include "GameFramework/SpringArmComponent.h"
 ABasicPlayerCameraManager::ABasicPlayerCameraManager() 
 {
 	
@@ -25,5 +25,11 @@ void ABasicPlayerCameraManager::UpdateCamera(float DeltaTime)
 		//FMath::VInterpTo();
 		
 		//FMath::Lerp(GetFOVAngle(), targetFOV, 0.5f);
+	
+		FVector targetPos = player->bIsCrouched ? player->CrouchSpringArmPosition : player->NormalSpringArmPosition;
+
+		FVector result = FMath::VInterpTo(player->SpringArm->GetRelativeLocation(), targetPos, DeltaTime, 5.0f);
+		player->SpringArm->SetRelativeLocation(result);
+
 	}
 }

@@ -10,6 +10,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "WeaponComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 ABasicCharacter::ABasicCharacter()
@@ -40,6 +41,9 @@ ABasicCharacter::ABasicCharacter()
 	
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 	GetCharacterMovement()->CrouchedHalfHeight = 88.0f;
+
+	NormalSpringArmPosition = SpringArm->GetRelativeLocation();
+	CrouchSpringArmPosition = NormalSpringArmPosition + FVector(0.0f,0.0f,-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()/2);
 }
 
 // Called when the game starts or when spawned
@@ -137,11 +141,61 @@ void ABasicCharacter::Unsprint()
 void ABasicCharacter::StartFire()
 {
 	bIsFire = true;
+
+	OnFire();
 }
 
 void ABasicCharacter::EndFire()
 {
 	bIsFire = false;
+}
+
+void ABasicCharacter::OnFire()
+{
+	if (!bIsFire)
+	{
+		return;
+	}
+
+
+	APlayerController* playerController = Cast<APlayerController>(GetController());
+	if (playerController)
+	{
+		int32 sizeX, sizeY;
+		FVector crosshairLocation, crosshairDirection; // this is world location & direction.
+		playerController->GetViewportSize(sizeX, sizeY);
+		playerController->DeprojectScreenPositionToWorld(
+			sizeX / 2, sizeY / 2, crosshairLocation, crosshairDirection);
+
+		FVector cameraLocation;
+		FRotator cameraRotation;
+		playerController->GetPlayerViewPoint(cameraLocation, cameraRotation);
+
+		FVector traceStart = cameraLocation;
+		FVector traceEnd = traceStart + crosshairDirection * 100000.0f;
+
+		TArray<TEnumAsByte<EObjectTypeQuery>> objects;
+
+		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldDynamic));
+		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic));
+		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
+
+		TArray<AActor*> ignores;
+
+		FHitResult hit;
+		
+		bool result = UKismetSystemLibrary::LineTraceSingleForObjects(GetWorld(), traceStart,
+			traceEnd, objects, true, ignores, EDrawDebugTrace::ForDuration, hit, true, FLinearColor::Red, FLinearColor::Blue, 10.0f);
+
+		if (result)
+		{
+			UE_LOG(LogClass, Warning, TEXT("Hit %s"), *hit.GetActor()->GetName());
+		}
+	}
+
+
+	UE_LOG(LogClass, Warning, TEXT("Fire"));
+
 }
 
 void ABasicCharacter::StartIronsight()
