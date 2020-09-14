@@ -46,6 +46,9 @@ ABasicCharacter::ABasicCharacter()
 
 	NormalSpringArmPosition = SpringArm->GetRelativeLocation();
 	CrouchSpringArmPosition = NormalSpringArmPosition + FVector(0.0f,0.0f,-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()/2);
+
+	CurrentHP = 100.0f;
+	MaxHP = 100.0f;
 }
 
 // Called when the game starts or when spawned
@@ -82,6 +85,8 @@ void ABasicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("Ironsight", IE_Pressed, this, &ABasicCharacter::StartIronsight);
 	PlayerInputComponent->BindAction("Ironsight", IE_Released, this, &ABasicCharacter::EndIronsight);
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ABasicCharacter::StartCrouch);
+
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ABasicCharacter::Reload);
 	
 }
 
@@ -190,6 +195,7 @@ void ABasicCharacter::OnFire()
 
 
 		TArray<AActor*> ignores;
+		//ignores.Add(this);
 
 		FHitResult hit;
 		
@@ -212,13 +218,37 @@ void ABasicCharacter::OnFire()
 		{
 			UE_LOG(LogClass, Warning, TEXT("Hit : %s"), *hit.GetActor()->GetName());
 
-			UGameplayStatics::ApplyDamage(
+			//UGameplayStatics::ApplyDamage(
+			//	hit.GetActor(),
+			//	30.0f,
+			//	GetController(),
+			//	this,
+			//	UBulletDamageType::StaticClass()
+			//);
+
+			//UGameplayStatics::ApplyRadialDamage(
+			//	GetWorld(),
+			//	25.0f, 
+			//	hit.ImpactPoint, //위치
+			//	500.0f, //범위
+			//	UBulletDamageType::StaticClass(),
+			//	ignores,
+			//	this,
+			//	GetController(),
+			//	true, // 풀데미지 여부
+			//	ECC_Visibility // 막힘 처리
+			//);
+
+			UGameplayStatics::ApplyPointDamage(
 				hit.GetActor(),
-				30.0f,
+				10.0f,
+				-hit.ImpactNormal, //방향
+				hit,
 				GetController(),
 				this,
 				UBulletDamageType::StaticClass()
 			);
+				 
 
 			if (HitEffect)
 			{
@@ -273,8 +303,87 @@ float ABasicCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 
 	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	UE_LOG(LogClass, Warning, TEXT("Damage : %f"), DamageAmount);
+	if (CurrentHP <= 0.0f) // 이미 죽었으면 처리 안함.
+	{
+		return 0.0f;
+	}
+
+	//UE_LOG(LogClass, Warning, TEXT("Damage : %f"), DamageAmount);
+
+	FVector impulseDirection(0.0f, 0.0f, 0.0f);
+
+	if (DamageEvent.IsOfType(FPointDamageEvent::ClassID))
+	{
+		FPointDamageEvent* pointEvent = (FPointDamageEvent*)(&DamageEvent);
+
+		//UE_LOG(LogClass, Warning, TEXT("Point Damage -----> Bone Name : %s"), *pointEvent->HitInfo.BoneName.ToString());
+
+		if (pointEvent->HitInfo.BoneName.Compare(TEXT("head")) == 0)
+		{
+			CurrentHP = 0.0f;
+		}
+		else
+		{
+			CurrentHP = FMath::Clamp<float>(CurrentHP - DamageAmount, 0.0f, MaxHP);
+		}
+		impulseDirection = pointEvent->ShotDirection;
+	}
+	else if (DamageEvent.IsOfType(FRadialDamageEvent::ClassID))
+	{
+		FRadialDamageEvent* radialEvent = (FRadialDamageEvent*)(&DamageEvent);
+
+		UE_LOG(LogClass, Warning, TEXT("Radial Damage"));
+	}
+	else
+	{
+		CurrentHP = FMath::Clamp<float>(CurrentHP - DamageAmount, 0.0f, MaxHP);
+	}
+
+
+
+	if (CurrentHP <= 0.0f)
+	{
+		//Destroy();
+
+		////physics
+		//GetMesh()->SetSimulatePhysics(true);
+		//GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		//GetMesh()->AddImpulse(impulseDirection* 30000.0f, TEXT("head"));
+		//SetLifeSpan(5.0f);
+
+		//animation ->애니메이션 몽타주 사용.
+		if (DeathMontage)
+		{
+			FString sectionName = FString::Printf(TEXT("Death_%d"), FMath::RandRange(1, 3));
+
+			PlayAnimMontage(DeathMontage, 1.0f, FName(sectionName)); // 애님블루프린트의 defaultslot 을 사용한다.
+		}
+
+	}
+	else
+	{
+		if(HitReactMontage)
+		{ 
+			FString sectionName = FString::Printf(TEXT("Hit_React_%d"), FMath::RandRange(1, 4));
+
+			PlayAnimMontage(HitReactMontage, 1.0f, FName(sectionName));
+		}
+	}
 
 	return 0.0f;
+}
+
+void ABasicCharacter::Reload()
+{
+	UAnimInstance* animInstance = (GetMesh()) ? GetMesh()->GetAnimInstance() : nullptr;
+
+	if (ReloadMontage && animInstance)
+	{
+		if (!animInstance->Montage_IsPlaying(ReloadMontage))
+		{
+			PlayAnimMontage(ReloadMontage);
+		}
+	}
 }
 

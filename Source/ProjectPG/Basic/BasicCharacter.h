@@ -71,9 +71,18 @@ public:
 
 	void StartCrouch(); // toggle crouch
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HP")
+	float CurrentHP;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HP")
+	float MaxHP;
+
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	UAnimMontage* DeathMontage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+		UAnimMontage* HitReactMontage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpringArm")
 	FVector NormalSpringArmPosition;
@@ -98,5 +107,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	USoundBase* WeaponSound;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+	UAnimMontage* ReloadMontage;
+
+	void Reload();
 
 };
