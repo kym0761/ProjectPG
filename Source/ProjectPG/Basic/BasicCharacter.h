@@ -69,7 +69,11 @@ public:
 	void StartIronsight();
 	void EndIronsight();
 
-	void StartCrouch();
+	void StartCrouch(); // toggle crouch
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpringArm")
 	FVector NormalSpringArmPosition;
@@ -77,4 +81,22 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "SpringArm")
 	FVector CrouchSpringArmPosition;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LineTrace")
+	TArray<TEnumAsByte<EObjectTypeQuery>> Objects;
+
+
+	FTimerHandle FireTimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	UParticleSystem* HitEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	UParticleSystem* BloodEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	UParticleSystem* MuzzleFlash;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	USoundBase* WeaponSound;
+
 };

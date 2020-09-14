@@ -11,6 +11,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "WeaponComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "BulletDamageType.h"
 
 // Sets default values
 ABasicCharacter::ABasicCharacter()
@@ -21,7 +23,7 @@ ABasicCharacter::ABasicCharacter()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->bUsePawnControlRotation = true;
-	SpringArm->TargetArmLength = 200.0f;
+	SpringArm->TargetArmLength = 500.0f;
 	SpringArm->SocketOffset = FVector(0.0f, 40.0f, 88.0f);
 	//bUseControllerRotationYaw = false;
 
@@ -142,12 +144,17 @@ void ABasicCharacter::StartFire()
 {
 	bIsFire = true;
 
-	OnFire();
+	GetWorldTimerManager().SetTimer(FireTimer, this, &ABasicCharacter::OnFire, 0.12f, true, 0.0f);
+
+
+	//OnFire();
 }
 
 void ABasicCharacter::EndFire()
 {
 	bIsFire = false;
+
+	GetWorldTimerManager().ClearTimer(FireTimer);
 }
 
 void ABasicCharacter::OnFire()
@@ -178,23 +185,64 @@ void ABasicCharacter::OnFire()
 
 		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldDynamic));
 		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic));
-		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
+		//objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
+		objects.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_PhysicsBody));
+
 
 		TArray<AActor*> ignores;
 
 		FHitResult hit;
 		
-		bool result = UKismetSystemLibrary::LineTraceSingleForObjects(GetWorld(), traceStart,
-			traceEnd, objects, true, ignores, EDrawDebugTrace::ForDuration, hit, true, FLinearColor::Red, FLinearColor::Blue, 10.0f);
+		bool result = UKismetSystemLibrary::LineTraceSingleForObjects(
+			GetWorld(),
+			traceStart,
+			traceEnd,
+			objects,
+			true,
+			ignores,
+			EDrawDebugTrace::ForDuration,
+			hit,
+			true,
+			FLinearColor::Red,
+			FLinearColor::Blue,
+			5.0f
+		);
 
 		if (result)
 		{
-			UE_LOG(LogClass, Warning, TEXT("Hit %s"), *hit.GetActor()->GetName());
+			UE_LOG(LogClass, Warning, TEXT("Hit : %s"), *hit.GetActor()->GetName());
+
+			UGameplayStatics::ApplyDamage(
+				hit.GetActor(),
+				30.0f,
+				GetController(),
+				this,
+				UBulletDamageType::StaticClass()
+			);
+
+			if (HitEffect)
+			{
+				
+			}
+			if (BloodEffect)
+			{
+
+			}
+
+
 		}
 	}
+	//UE_LOG(LogClass, Warning, TEXT("Fire"));
+	
+	if (MuzzleFlash)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, Weapon->GetSocketTransform(TEXT("Muzzle")));
+	}
 
-
-	UE_LOG(LogClass, Warning, TEXT("Fire"));
+	if (WeaponSound)
+	{
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), WeaponSound, Weapon->GetComponentLocation());
+	}
 
 }
 
@@ -218,5 +266,15 @@ void ABasicCharacter::StartCrouch()
 	{
 		UnCrouch();
 	}
+}
+
+float ABasicCharacter::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	UE_LOG(LogClass, Warning, TEXT("Damage : %f"), DamageAmount);
+
+	return 0.0f;
 }
 
