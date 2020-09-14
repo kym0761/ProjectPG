@@ -53,11 +53,11 @@ public:
 	void Unsprint();
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
 		uint64 bIsFire : 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
 		uint64 bIsSprint : 1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
 		uint64 bIsIronsight : 1;
 
 
@@ -113,5 +113,23 @@ public:
 	UAnimMontage* ReloadMontage;
 
 	void Reload();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Decal")
+		UMaterialInstance* NormalDecal;
+
+
+
+
+	void StartLeftLean();
+	void EndLeftLean();
+
+	void StartRightLean();
+	void EndRightLean();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
+	uint8 bLeftLean : 1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
+	uint8 bRightLean : 1;
 
 };

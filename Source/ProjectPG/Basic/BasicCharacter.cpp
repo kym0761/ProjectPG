@@ -13,6 +13,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "BulletDamageType.h"
+#include "Components/DecalComponent.h"
 
 // Sets default values
 ABasicCharacter::ABasicCharacter()
@@ -88,6 +89,12 @@ void ABasicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ABasicCharacter::Reload);
 	
+	PlayerInputComponent->BindAction("LeftLean", IE_Pressed, this, &ABasicCharacter::StartLeftLean);
+	PlayerInputComponent->BindAction("LeftLean", IE_Released, this, &ABasicCharacter::EndLeftLean);
+
+	PlayerInputComponent->BindAction("RightLean", IE_Pressed, this, &ABasicCharacter::StartRightLean);
+	PlayerInputComponent->BindAction("RightLean", IE_Released, this, &ABasicCharacter::EndRightLean);
+
 }
 
 void ABasicCharacter::MoveForward(float Value)
@@ -195,7 +202,7 @@ void ABasicCharacter::OnFire()
 
 
 		TArray<AActor*> ignores;
-		//ignores.Add(this);
+		ignores.Add(this);
 
 		FHitResult hit;
 		
@@ -206,7 +213,7 @@ void ABasicCharacter::OnFire()
 			objects,
 			true,
 			ignores,
-			EDrawDebugTrace::ForDuration,
+			EDrawDebugTrace::None, //EDrawDebugTrace::ForDuration,
 			hit,
 			true,
 			FLinearColor::Red,
@@ -216,8 +223,38 @@ void ABasicCharacter::OnFire()
 
 		if (result)
 		{
-			UE_LOG(LogClass, Warning, TEXT("Hit : %s"), *hit.GetActor()->GetName());
+			//UE_LOG(LogClass, Warning, TEXT("Hit : %s"), *hit.GetActor()->GetName());
 
+			if (Cast<ACharacter>(hit.GetActor()))
+			{
+
+				if (BloodEffect)
+				{
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BloodEffect, hit.ImpactPoint + (hit.ImpactNormal*10.0f));
+				}
+			}
+			else
+			{
+				if (HitEffect)
+				{
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, hit.ImpactPoint + (hit.ImpactNormal*10.0f));
+				}
+
+				//µ¥Ä®Àº ½ºÄÌ·¹Åæ ¸Þ½Ã¿¡ ¾²¸é ¾ÈµÊ.
+				UDecalComponent* NewDecal = UGameplayStatics::SpawnDecalAtLocation(
+					GetWorld(),
+					NormalDecal,
+					FVector(10.0f, 10.0f, 10.0f),
+					hit.ImpactPoint,
+					hit.ImpactNormal.Rotation(),
+					20.0f
+					);
+
+					NewDecal->SetFadeScreenSize(0.005f);
+					UE_LOG(LogClass, Warning, TEXT("Decal Spawn"));
+			}
+
+			////
 			//UGameplayStatics::ApplyDamage(
 			//	hit.GetActor(),
 			//	30.0f,
@@ -226,6 +263,7 @@ void ABasicCharacter::OnFire()
 			//	UBulletDamageType::StaticClass()
 			//);
 
+			////
 			//UGameplayStatics::ApplyRadialDamage(
 			//	GetWorld(),
 			//	25.0f, 
@@ -248,17 +286,6 @@ void ABasicCharacter::OnFire()
 				this,
 				UBulletDamageType::StaticClass()
 			);
-				 
-
-			if (HitEffect)
-			{
-				
-			}
-			if (BloodEffect)
-			{
-
-			}
-
 
 		}
 	}
@@ -385,5 +412,25 @@ void ABasicCharacter::Reload()
 			PlayAnimMontage(ReloadMontage);
 		}
 	}
+}
+
+void ABasicCharacter::StartLeftLean()
+{
+	bLeftLean = true;
+}
+
+void ABasicCharacter::EndLeftLean()
+{
+	bLeftLean = false;
+}
+
+void ABasicCharacter::StartRightLean()
+{
+	bRightLean = true;
+}
+
+void ABasicCharacter::EndRightLean()
+{
+	bRightLean = false;
 }
 

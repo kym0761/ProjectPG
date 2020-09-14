@@ -79,3 +79,25 @@ cache를 사용해서 기본 스테이트 머신을 복사
 그리고 본마다 레이어로 블렌딩 노드로 연결
 
 어떤 본을 기준으로 밑의 것을 사용할 것인지를 노드에서 설정해주면 적용됨.
+
+
+
+총알자국
+
+material domain을 defferred decal로 변경
+blend transflucent
+decal blend mode는 dbuffer translucent color normal
+
+데칼이 안보이면 fade screen size를 적당히 조절해주어야 보임
+
+데칼은 skeletal mesh에 적용하는 것은 적절하지 않다.
+
+
+
+총쏘는 애니메이션 에디티브 적용하여 블렌딩한다. alpha는 is fire를 사용한다.
+
+총쏘는 애니메이션을 선택하고 addtive setting을 정한다 local space가 적당하고
+selected animation frame? 을 선택한다.
+기본 포즈는 idle rifle hip을 선택한다.
+
+총쏘는 애니메이션 블렌딩할 자리에 에디티브 적용 노드를 사용한다.

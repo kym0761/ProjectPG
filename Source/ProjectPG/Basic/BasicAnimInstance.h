@@ -18,22 +18,26 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Information)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
 		float Speed;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Information)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
 		float Direction;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		uint64 bIsFire : 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		uint64 bIsSprint : 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		uint64 bIsIronsight : 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Information)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		uint64 bIsCrouched: 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+		float CurrentLeanAngle = 0.0f;
+
 };

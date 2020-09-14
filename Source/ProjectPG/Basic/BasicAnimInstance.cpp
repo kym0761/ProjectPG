@@ -18,5 +18,27 @@ void UBasicAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		bIsSprint = character->bIsSprint;
 		bIsIronsight = character->bIsIronsight;
 		bIsCrouched = character->bIsCrouched;
+
+		bool bLeftLean = character->bLeftLean;
+		bool bRightLean = character->bRightLean;
+
+		float targetLeanAngle;
+		if (bLeftLean && bRightLean)
+		{
+			targetLeanAngle = 0.0f;
+		}
+		else if (bLeftLean)
+		{
+			targetLeanAngle = -30.0f;
+		}
+		else if (bRightLean)
+		{
+			targetLeanAngle = 30.0f;
+		}
+		else
+		{
+			targetLeanAngle = 0.0f;
+		}
+		CurrentLeanAngle = FMath::FInterpTo(CurrentLeanAngle, targetLeanAngle, DeltaSeconds, 15.0f);
 	}
 }
