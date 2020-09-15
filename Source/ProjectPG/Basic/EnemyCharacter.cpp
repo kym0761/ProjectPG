@@ -4,7 +4,7 @@
 #include "EnemyCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
-
+#include "Perception/PawnSensingComponent.h"
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -14,6 +14,12 @@ AEnemyCharacter::AEnemyCharacter()
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
 	GetMesh()->SetRelativeRotation(FRotator(0.0f, 270.0f, 0.0f));
 
+
+	CurrentHP = 100.0f;
+	MaxHP = 100.0f;
+
+	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensing"));
+
 }
 
 // Called when the game starts or when spawned
@@ -21,6 +27,12 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (PawnSensing)
+	{
+		PawnSensing->OnSeePawn.AddDynamic(this, &AEnemyCharacter::ProcessSeenPawn);
+		PawnSensing->OnHearNoise.AddDynamic(this, &AEnemyCharacter::ProcessHeardPawn);
+	}
+
 }
 
 // Called every frame
@@ -88,7 +100,7 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 		//GetMesh()->AddImpulse(impulseDirection* 30000.0f, TEXT("head"));
 		//SetLifeSpan(5.0f);
 
-
+		CurrentState = EZombieState::Dead;
 
 	}
 	else
@@ -97,5 +109,14 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 	}
 
 	return 0.0f;
+}
+
+void AEnemyCharacter::ProcessSeenPawn(APawn * Pawn)
+{
+	UE_LOG(LogClass, Warning, TEXT("SEE %s"), *Pawn->GetName());
+}
+
+void AEnemyCharacter::ProcessHeardPawn(APawn* Pawn, const FVector & Location, float Volume)
+{
 }
 

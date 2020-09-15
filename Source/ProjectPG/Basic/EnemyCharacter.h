@@ -62,4 +62,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
 		float AttackRange = 100.0f;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
+	class UPawnSensingComponent* PawnSensing;
+
+	UFUNCTION()
+		void ProcessSeenPawn(APawn* Pawn);
+
+	UFUNCTION()
+		void ProcessHeardPawn(APawn* Pawn, const FVector& Location, float Volume);
+
 };
