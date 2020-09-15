@@ -132,4 +132,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
 	uint8 bRightLean : 1;
 
+	FRotator GetAimOffset() const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CameraShake")
+	TSubclassOf<UCameraShake> WorldCameraShake;
+
 };

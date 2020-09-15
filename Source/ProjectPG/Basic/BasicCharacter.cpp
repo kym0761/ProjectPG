@@ -14,7 +14,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "BulletDamageType.h"
 #include "Components/DecalComponent.h"
-
+#include "MyCameraShake.h"
 // Sets default values
 ABasicCharacter::ABasicCharacter()
 {
@@ -139,7 +139,7 @@ void ABasicCharacter::Turn(float Value)
 
 void ABasicCharacter::LookUp(float Value)
 {
-	AddControllerPitchInput(Value);
+	AddControllerPitchInput(-Value);
 }
 
 void ABasicCharacter::Sprint()
@@ -181,14 +181,31 @@ void ABasicCharacter::OnFire()
 	if (playerController)
 	{
 		int32 sizeX, sizeY;
+		int32 randx = FMath::RandRange(-10, 10);
+		int32 randy = FMath::RandRange(3, 15);
 		FVector crosshairLocation, crosshairDirection; // this is world location & direction.
 		playerController->GetViewportSize(sizeX, sizeY);
 		playerController->DeprojectScreenPositionToWorld(
-			sizeX / 2, sizeY / 2, crosshairLocation, crosshairDirection);
+			sizeX / 2 + randx, sizeY / 2+ randy, crosshairLocation, crosshairDirection);
 
 		FVector cameraLocation;
 		FRotator cameraRotation;
 		playerController->GetPlayerViewPoint(cameraLocation, cameraRotation);
+
+		////recoil
+		//FRotator playerRot = GetControlRotation();
+		//playerRot.Pitch += FMath::FRandRange(0.1f,0.25f);
+		//GetController()->SetControlRotation(playerRot);
+
+
+		////shaking camera
+		//UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0)->PlayCameraShake(UMyCameraShake::StaticClass());
+		
+		//world camera shaking
+		if (WorldCameraShake)
+		{
+			UGameplayStatics::PlayWorldCameraShake(GetWorld(), WorldCameraShake, FVector(0.0f, 0.0f, 0.0f), 3000.0f, 9000.0f, 1.0f, false);
+		}
 
 		FVector traceStart = cameraLocation;
 		FVector traceEnd = traceStart + crosshairDirection * 100000.0f;
@@ -432,5 +449,21 @@ void ABasicCharacter::StartRightLean()
 void ABasicCharacter::EndRightLean()
 {
 	bRightLean = false;
+}
+
+FRotator ABasicCharacter::GetAimOffset() const
+{
+
+	//world rotation -> local rotation
+	//world space rotation -> world direction vector -> local space direction vector -> local space rotation
+
+	FRotator rot = GetBaseAimRotation();
+
+	FVector aimDirWS = rot.Vector();
+	FVector aimDirLS = ActorToWorld().InverseTransformVectorNoScale(aimDirWS);
+
+	FRotator aimRotLS = aimDirLS.Rotation();
+
+	return aimRotLS;
 }
 

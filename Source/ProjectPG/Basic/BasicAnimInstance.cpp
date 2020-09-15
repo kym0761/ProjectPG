@@ -40,5 +40,11 @@ void UBasicAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			targetLeanAngle = 0.0f;
 		}
 		CurrentLeanAngle = FMath::FInterpTo(CurrentLeanAngle, targetLeanAngle, DeltaSeconds, 15.0f);
+
+		FRotator aimRotation = character->GetAimOffset();
+
+		AimYaw = aimRotation.Yaw;
+		AimPitch = aimRotation.Pitch;
+
 	}
 }

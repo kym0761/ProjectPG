@@ -40,4 +40,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		float CurrentLeanAngle = 0.0f;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+		float AimYaw;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+		float AimPitch;
+
 };
