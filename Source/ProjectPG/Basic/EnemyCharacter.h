@@ -71,4 +71,13 @@ public:
 	UFUNCTION()
 		void ProcessHeardPawn(APawn* Pawn, const FVector& Location, float Volume);
 
+	UFUNCTION(BlueprintCallable)
+	void SetState(EZombieState NewState);
+
+	UFUNCTION(BlueprintCallable)
+	void SetSpeed();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	class UBehaviorTree* ZombieBT;
+
 };

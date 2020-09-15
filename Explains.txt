@@ -116,3 +116,13 @@ lc left center
 
 //world space
 GetBaseAimRotation()
+
+
+~~~~~~~~~
+
+
+AI Perception
+
+AIModule 추가해야함.
+
+make noise 사용하려면 noise emitter 컴포넌트를 붙여야함.

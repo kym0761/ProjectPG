@@ -304,6 +304,8 @@ void ABasicCharacter::OnFire()
 				UBulletDamageType::StaticClass()
 			);
 
+			MakeNoise(1.0f, this, hit.ImpactPoint);
+
 		}
 	}
 	//UE_LOG(LogClass, Warning, TEXT("Fire"));

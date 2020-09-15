@@ -5,6 +5,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Perception/PawnSensingComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -27,6 +28,8 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetSpeed();
+
 	if (PawnSensing)
 	{
 		PawnSensing->OnSeePawn.AddDynamic(this, &AEnemyCharacter::ProcessSeenPawn);
@@ -64,9 +67,9 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 	{
 		FPointDamageEvent* pointEvent = (FPointDamageEvent*)(&DamageEvent);
 
-		//UE_LOG(LogClass, Warning, TEXT("Point Damage -----> Bone Name : %s"), *pointEvent->HitInfo.BoneName.ToString());
+		UE_LOG(LogClass, Warning, TEXT("Point Damage -----> Bone Name : %s"), *pointEvent->HitInfo.BoneName.ToString());
 
-		if (pointEvent->HitInfo.BoneName.Compare(TEXT("head")) == 0)
+		if (pointEvent->HitInfo.BoneName.Compare(TEXT("head")) == 0 || pointEvent->HitInfo.BoneName.Compare(TEXT("Head")) == 0)
 		{
 			CurrentHP = 0.0f;
 		}
@@ -114,9 +117,39 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 void AEnemyCharacter::ProcessSeenPawn(APawn * Pawn)
 {
 	UE_LOG(LogClass, Warning, TEXT("SEE %s"), *Pawn->GetName());
+
+	CurrentState = EZombieState::Chase;
 }
 
 void AEnemyCharacter::ProcessHeardPawn(APawn* Pawn, const FVector & Location, float Volume)
 {
+	UE_LOG(LogClass, Warning, TEXT("Heard %s"), *Pawn->GetName());
+
+	CurrentState = EZombieState::Chase;
+}
+
+void AEnemyCharacter::SetState(EZombieState NewState)
+{
+	CurrentState = NewState;
+}
+
+void AEnemyCharacter::SetSpeed()
+{
+
+	switch (CurrentState)
+	{
+	case EZombieState::Normal:
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+		break;
+
+	case EZombieState::Battle:
+	case EZombieState::Dead:
+		GetCharacterMovement()->MaxWalkSpeed = 0.0f;
+		break;
+
+	case EZombieState::Chase:
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+		break;
+	}
 }
 
