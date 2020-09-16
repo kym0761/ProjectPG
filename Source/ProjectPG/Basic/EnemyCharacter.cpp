@@ -176,3 +176,9 @@ void AEnemyCharacter::SetSpeed()
 	}
 }
 
+void AEnemyCharacter::SetSpeed(float Speed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = Speed;
+}
+
+

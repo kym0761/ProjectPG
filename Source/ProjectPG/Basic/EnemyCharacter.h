@@ -77,6 +77,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetSpeed();
 
+	void SetSpeed(float Speed);
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 	class UBehaviorTree* ZombieBT;
 
