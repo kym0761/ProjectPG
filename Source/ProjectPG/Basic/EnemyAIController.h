@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "EnemyCharacter.h"
 #include "EnemyAIController.generated.h"
 
 /**
@@ -26,5 +27,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		class UBlackboardComponent* BBComponent;
 
+	void SetCurrentState(EZombieState NewState);
 
+	void SetTarget(FVector NewLocation);
+
+	void SetPlayer(AActor* Player);
 };

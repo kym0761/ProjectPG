@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Perception/PawnSensingComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "EnemyAIController.h"
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -29,6 +30,7 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	SetSpeed();
+	SetCurrentState(EZombieState::Normal);
 
 	if (PawnSensing)
 	{
@@ -103,7 +105,7 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 		//GetMesh()->AddImpulse(impulseDirection* 30000.0f, TEXT("head"));
 		//SetLifeSpan(5.0f);
 
-		CurrentState = EZombieState::Dead;
+		SetCurrentState(EZombieState::Dead);
 
 	}
 	else
@@ -116,21 +118,42 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 
 void AEnemyCharacter::ProcessSeenPawn(APawn * Pawn)
 {
-	UE_LOG(LogClass, Warning, TEXT("SEE %s"), *Pawn->GetName());
+	if (CurrentState != EZombieState::Dead)
+	{
+		UE_LOG(LogClass, Warning, TEXT("SEE %s"), *Pawn->GetName());
 
-	CurrentState = EZombieState::Chase;
+		SetCurrentState(EZombieState::Chase);
+
+		AEnemyAIController* aiController = GetController<AEnemyAIController>();
+
+		if (aiController)
+		{
+			aiController->SetPlayer(Pawn);
+		}
+
+	}
 }
 
 void AEnemyCharacter::ProcessHeardPawn(APawn* Pawn, const FVector & Location, float Volume)
 {
-	UE_LOG(LogClass, Warning, TEXT("Heard %s"), *Pawn->GetName());
-
-	CurrentState = EZombieState::Chase;
+	if (CurrentState != EZombieState::Dead)
+	{
+		UE_LOG(LogClass, Warning, TEXT("Heard %s"), *Pawn->GetName());
+	}
 }
 
-void AEnemyCharacter::SetState(EZombieState NewState)
+void AEnemyCharacter::SetCurrentState(EZombieState NewState)
 {
 	CurrentState = NewState;
+
+	//update Blackboard.
+	AEnemyAIController* aiController = GetController<AEnemyAIController>();
+	if (aiController)
+	{
+		aiController->SetCurrentState(NewState);
+	}
+
+
 }
 
 void AEnemyCharacter::SetSpeed()

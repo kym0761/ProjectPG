@@ -4,19 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
-#include "BTTask_ChangeSpeed.generated.h"
+#include "BTTask_DestroyActor.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROJECTPG_API UBTTask_ChangeSpeed : public UBTTask_BlackboardBase
+class PROJECTPG_API UBTTask_DestroyActor : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
-	
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speed")
-	float Speed;
 };

@@ -25,5 +25,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "status")
 		float Speed = 300.0f;
 
-
+	UFUNCTION()
+	void AnimNotify_Attack2(UAnimNotify* Nofity);
 };

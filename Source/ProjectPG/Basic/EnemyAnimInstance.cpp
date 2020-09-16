@@ -15,3 +15,8 @@ void UEnemyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 
 }
+
+void UEnemyAnimInstance::AnimNotify_Attack2(UAnimNotify * Nofity)
+{
+	UE_LOG(LogClass, Warning, TEXT("ATTACKED!"));
+}

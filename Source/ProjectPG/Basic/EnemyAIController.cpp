@@ -32,4 +32,33 @@ void AEnemyAIController::OnUnPossess()
 {
 	Super::OnUnPossess();
 
+	if (BTComponent)
+	{
+		BTComponent->StopTree();
+	}
+
+}
+
+void AEnemyAIController::SetCurrentState(EZombieState NewState)
+{
+	if (BBComponent)
+	{
+		BBComponent->SetValueAsEnum(TEXT("CurrentState"), (uint8)NewState);
+	}
+}
+
+void AEnemyAIController::SetTarget(FVector NewLocation)
+{
+	if (BBComponent)
+	{
+		BBComponent->SetValueAsVector(TEXT("Destination"), NewLocation);
+	}
+}
+
+void AEnemyAIController::SetPlayer(AActor * Player)
+{
+	if (BBComponent)
+	{
+		BBComponent->SetValueAsObject(TEXT("Player"), Player);
+	}
 }
