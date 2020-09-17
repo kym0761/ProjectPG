@@ -24,4 +24,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 		ULobbyWidgetBase* LobbyWidgetObject;
 
+	UFUNCTION(Server, Reliable, WithValidation)
+	void C2S_SendMessage(const FText& Message);
+	bool C2S_SendMessage_Validate(const FText& Message);
+	void C2S_SendMessage_Implementation(const FText& Message);
+
+	UFUNCTION(Client, Reliable)
+		void S2C_SendMessage(const FText& Message);
+	void S2C_SendMessage_Implementation(const FText& Message);
 };

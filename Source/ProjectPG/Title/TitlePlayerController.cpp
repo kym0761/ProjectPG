@@ -24,12 +24,12 @@ void ATitlePlayerController::BeginPlay()
 
 void ATitlePlayerController::StartServer()
 {
-	SetInputMode(FInputModeGameOnly());
+	//SetInputMode(FInputModeGameOnly());
 	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Lobby"), true, TEXT("listen"));
 }
 
 void ATitlePlayerController::ConnectServer(FString ServerIPAddress)
 {
-	SetInputMode(FInputModeGameOnly());
+	//SetInputMode(FInputModeGameOnly());
 	UGameplayStatics::OpenLevel(GetWorld(),FName(*ServerIPAddress));
 }
