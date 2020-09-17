@@ -4,31 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "TitlePlayerController.generated.h"
+#include "LobbyPlayerController.generated.h"
 
-class UTitleWidgetBase;
+class ULobbyWidgetBase;
+
 /**
  * 
  */
 UCLASS()
-class PROJECTPG_API ATitlePlayerController : public APlayerController
+class PROJECTPG_API ALobbyPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-
 public:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UTitleWidgetBase> TitleWidgetClass;
+		TSubclassOf<ULobbyWidgetBase> LobbyWidgetClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
-		UTitleWidgetBase* TitleWidgetObject;
-
-
-	UFUNCTION(BlueprintCallable)
-		void StartServer();
-	UFUNCTION(BlueprintCallable)
-		void ConnectServer(FString ServerIPAddress);
-
+		ULobbyWidgetBase* LobbyWidgetObject;
 
 };

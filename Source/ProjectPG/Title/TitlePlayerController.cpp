@@ -4,6 +4,8 @@
 #include "TitlePlayerController.h"
 #include "Blueprint/UserWidget.h" //CreateWidget
 #include "TitleWidgetBase.h"
+#include "kismet/GameplayStatics.h"
+
 void ATitlePlayerController::BeginPlay()
 {
 	if (TitleWidgetClass)
@@ -18,4 +20,16 @@ void ATitlePlayerController::BeginPlay()
 	{
 		UE_LOG(LogClass, Warning, TEXT("You Must Add TitleWidgetClass"));
 	}
+}
+
+void ATitlePlayerController::StartServer()
+{
+	SetInputMode(FInputModeGameOnly());
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Lobby"), true, TEXT("listen"));
+}
+
+void ATitlePlayerController::ConnectServer(FString ServerIPAddress)
+{
+	SetInputMode(FInputModeGameOnly());
+	UGameplayStatics::OpenLevel(GetWorld(),FName(*ServerIPAddress));
 }
