@@ -8,6 +8,10 @@
 #include "Components/ScrollBox.h"
 #include "../PGGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "LobbyGameStateBase.h"
+#include "Components/Button.h"
+#include "LobbyGameModeBase.h"
+
 void ULobbyWidgetBase::NativeConstruct()
 {
 
@@ -21,6 +25,27 @@ void ULobbyWidgetBase::NativeConstruct()
 	}
 
 	ChatBox = Cast<UScrollBox>(GetWidgetFromName(TEXT("ChatBox")));
+
+	ConnectCount= Cast<UTextBlock>(GetWidgetFromName(TEXT("TextBlock_ConnectCount")));
+	PublicMessage = Cast<UTextBlock>(GetWidgetFromName(TEXT("TextBlock_PublicMessage")));
+	StartGameButton= Cast<UButton>(GetWidgetFromName(TEXT("GameStartButton")));
+
+	if (StartGameButton)
+	{
+		StartGameButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::PressStartGameButton);
+	}
+	
+}
+
+void ULobbyWidgetBase::PressStartGameButton()
+{
+	ALobbyGameModeBase* gm = Cast<ALobbyGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (gm) // server only
+	{
+		gm->StartGame();
+	}
+
 }
 
 void ULobbyWidgetBase::ProcessTextCommit(const FText & Text, ETextCommit::Type CommitMethod)
@@ -69,5 +94,49 @@ void ULobbyWidgetBase::AddMessage(FText Message)
 			ChatBox->AddChild(newTextBlock);
 			ChatBox->ScrollToEnd();
 		}
+	}
+}
+
+//void ULobbyWidgetBase::NativeTick(const FGeometry & MyGeometry, float InDeltaTime)
+//{
+//	Super::NativeTick(MyGeometry, InDeltaTime);
+//
+//	ALobbyGameStateBase* gameState = Cast<ALobbyGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+//	
+//	if (gameState)
+//	{
+//		FString temp = FString::Printf(TEXT("% Connected"), gameState->ConnectCount);
+//		if (ConnectCount)
+//		{
+//			ConnectCount->SetText(FText::FromString(temp));
+//		}
+//	}
+//}
+
+void ULobbyWidgetBase::SetConnectCount(int32 Count)
+{
+
+		FString temp = FString::Printf(TEXT("%d Connected"), Count);
+		if (ConnectCount)
+		{
+			ConnectCount->SetText(FText::FromString(temp));
+		}
+}
+
+void ULobbyWidgetBase::SetPublicMessage(int32 LeftTime)
+{
+	FString temp = FString::Printf(TEXT("%d seconds Left"), LeftTime);
+	if (ConnectCount)
+	{
+		PublicMessage->SetText(FText::FromString(temp));
+	}
+
+}
+
+void ULobbyWidgetBase::HideStartGameButton()
+{
+	if (StartGameButton)
+	{
+		StartGameButton->SetVisibility(ESlateVisibility::Hidden);
 	}
 }

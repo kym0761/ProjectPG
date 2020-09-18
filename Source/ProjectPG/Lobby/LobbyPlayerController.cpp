@@ -20,6 +20,11 @@ void ALobbyPlayerController::BeginPlay()
 			if (LobbyWidgetObject)
 			{
 				LobbyWidgetObject->AddToViewport();
+
+				if (!HasAuthority())
+				{
+					LobbyWidgetObject->HideStartGameButton();
+				}
 			}
 		}
 		else

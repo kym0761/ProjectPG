@@ -46,5 +46,26 @@ void UBasicAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		AimYaw = aimRotation.Yaw;
 		AimPitch = aimRotation.Pitch;
 
+		bIsReloaded = character->bIsReloaded;
+
+		if (character->ReloadMontage && character->bIsReloaded)
+		{
+			if (!Montage_IsPlaying(character->ReloadMontage))
+			{
+				character->PlayAnimMontage(character->ReloadMontage);
+			}
+		}
+
+	}
+}
+
+void UBasicAnimInstance::AnimNotify_ReloadEnd(UAnimNotify * AnimNotify)
+{
+	ABasicCharacter* character = Cast<ABasicCharacter>(TryGetPawnOwner());
+	if (character && character->IsValidLowLevel())
+	{
+		bIsReloaded = false;
+		character->bIsReloaded = false;
+		character->C2S_SetReload(false);
 	}
 }

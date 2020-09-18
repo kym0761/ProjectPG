@@ -8,7 +8,8 @@
 
 class UEditableTextBox;
 class UScrollBox;
-
+class UTextBlock;
+class UButton;
 /**
  * 
  */
@@ -28,8 +29,29 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UScrollBox* ChatBox;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UTextBlock* ConnectCount;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UTextBlock* PublicMessage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UButton* StartGameButton;
+
+	UFUNCTION()
+	void PressStartGameButton();
+
 	UFUNCTION()
 	void ProcessTextCommit(const FText& Text, ETextCommit::Type CommitMethod);
 
 	void AddMessage(FText Message);
+
+	//virtual void NativeTick(const FGeometry & MyGeometry, float InDeltaTime) override;
+
+	void SetConnectCount(int32 Count);
+
+	void SetPublicMessage(int32 LeftTime);
+
+	void HideStartGameButton();
+
 };

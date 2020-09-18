@@ -38,6 +38,12 @@ protected:
 		uint64 bIsCrouched: 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+		uint64 bIsReloaded : 1;
+
+	UFUNCTION()
+	void AnimNotify_ReloadEnd(UAnimNotify* AnimNotify);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		float CurrentLeanAngle = 0.0f;
 
 
