@@ -5,6 +5,8 @@
 #include "BattleWidgetBase.h"
 void ABattlePlayerController::BeginPlay()
 {
+	Super::BeginPlay();
+
 	if (IsLocalPlayerController())
 	{
 		if (BattleWidgetClass)

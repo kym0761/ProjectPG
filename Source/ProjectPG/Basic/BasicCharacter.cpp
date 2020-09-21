@@ -19,6 +19,8 @@
 
 #include "../Battle/BattleWidgetBase.h"
 #include "../Battle/BattlePlayerController.h"
+#include "../Battle/BattleGameModeBase.h"
+
 
 
 // Sets default values
@@ -63,7 +65,7 @@ void ABasicCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	OnRep_CurrentHP();
+//	OnRep_CurrentHP();
 }
 
 // Called every frame
@@ -268,11 +270,10 @@ void ABasicCharacter::StartCrouch()
 void ABasicCharacter::OnRep_CurrentHP()
 {
 	ABattlePlayerController* pc = Cast<ABattlePlayerController>(GetController());
-	if (pc&&pc->IsLocalPlayerController())
+	if (pc&&pc->IsLocalPlayerController()&&pc->BattleWidgetObject)
 	{
-		pc->BattleWidgetObject->UpdateHPBar(CurrentHP/MaxHP);
+		pc->BattleWidgetObject->UpdateHPBar(CurrentHP / MaxHP);
 	}
-
 
 }
 
@@ -332,6 +333,16 @@ float ABasicCharacter::TakeDamage(float DamageAmount, FDamageEvent const & Damag
 
 		//animation ->애니메이션 몽타주 사용.
 		S2A_PlayDeathMontage(FMath::RandRange(1, 3));
+
+		//count alive player
+		// this will call in server only because takedamage() always Only Execute in server
+		ABattleGameModeBase* gm = Cast<ABattleGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+		if (gm)
+		{
+			gm->CountAlivePlayer();
+		}
+
+
 
 	}
 	else
@@ -517,7 +528,7 @@ void ABasicCharacter::S2A_SpawnHitEffectAndDecal_Implementation(FHitResult OutHi
 		);
 
 		NewDecal->SetFadeScreenSize(0.005f);
-		UE_LOG(LogClass, Warning, TEXT("Decal Spawn"));
+		//UE_LOG(LogClass, Warning, TEXT("Decal Spawn"));
 	}
 }
 

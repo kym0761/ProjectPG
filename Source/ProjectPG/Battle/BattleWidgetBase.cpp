@@ -24,7 +24,7 @@ void UBattleWidgetBase::SetAliveCount(int32 NewCount)
 {
 	if (AliveCount)
 	{
-		FString temp = FString::Printf(TEXT("%d명이 생존"), NewCount);
+		FString temp = FString::Printf(TEXT("%d Alived"), NewCount);
 		AliveCount->SetText(FText::FromString(temp));
 	}
 }

@@ -58,6 +58,6 @@ void ALobbyGameModeBase::DecreaseTime()
 
 void ALobbyGameModeBase::StartGame()
 {
-	//서버의 맵을 이더ㅗㅇ
+	//서버의 맵을 이동
 	GetWorld()->ServerTravel(TEXT("Battle"));
 }

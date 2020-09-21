@@ -612,53 +612,58 @@
 "../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Sound/Weapons/SMG_Thompson/WPN_Thompson_Trigger_04.uasset" 611
 "../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Sound/Weapons/SMG_Thompson/Cue_Thompson_Shot.uasset" 612
 "../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_Character.uasset" 613
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_CameraManager.uasset" 614
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_PlayerController.uasset" 615
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_GameMode.uasset" 616
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Battle_BuiltData.uasset" 617
-"../../../Engine/Content/MapTemplates/SM_Template_Map_Floor.uasset" 618
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Battle.umap" 619
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/BP_Character.uasset" 620
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Mesh/Zombie_Skeleton.uasset" 621
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Attack.uasset" 622
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Attack2.uasset" 623
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Death.uasset" 624
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Idle.uasset" 625
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Run.uasset" 626
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Scream.uasset" 627
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Walking.uasset" 628
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/AnimBP_Zombie.uasset" 629
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/AI_BB_Zombie.uasset" 630
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/BP_ZombieAIController.uasset" 631
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/BTTask_BlueprintBase_New.uasset" 632
-"../../../Engine/Content/VREditor/Sounds/UI/Click_on_Button_Cue.uasset" 633
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/AI_BT_Zombie.uasset" 634
-"../../../Engine/Content/EngineMaterials/Widget3DPassThrough_Masked_OneSided.uasset" 635
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/UI/Widget_ZombieHP.uasset" 636
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Police_Zombie_diffuse.uasset" 637
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Police_Zombie_normal.uasset" 638
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Police_Zombie_specular.uasset" 639
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Zombie.uasset" 640
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Mesh/Zombie_PhysicsAsset.uasset" 641
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Mesh/Zombie.uasset" 642
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/BP_Zombie.uasset" 643
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/BP_GameMode.uasset" 644
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Level01_BuiltData.uasset" 645
-"../../../Engine/Content/BasicShapes/BasicShapeMaterial.uasset" 646
-"../../../Engine/Content/BasicShapes/Cube.uasset" 647
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Level01.umap" 648
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyGameState.uasset" 649
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/LobbyWidget.uasset" 650
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyPlayerController.uasset" 651
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyPlayerState.uasset" 652
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyGameMode.uasset" 653
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Lobby_BuiltData.uasset" 654
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Lobby.umap" 655
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/UI/M_TitleMaterial.uasset" 656
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/UI/TitleWidget.uasset" 657
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/BP_TitlePlayerController.uasset" 658
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/BP_TitleGameMode.uasset" 659
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Title_BuiltData.uasset" 660
-"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Title.umap" 661
-"../../../Engine/Content/Maps/Entry_BuiltData.uasset" 662
-"../../../Engine/Content/Maps/Entry.umap" 663
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Battle/BP_BattleGameStateBase.uasset" 614
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Battle/BattleWidget.uasset" 615
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Battle/BP_BattlePlayerController.uasset" 616
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Battle/BP_BattlePlayerState.uasset" 617
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Battle/BP_BattleGameModeBase.uasset" 618
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Battle_BuiltData.uasset" 619
+"../../../Engine/Content/MapTemplates/SM_Template_Map_Floor.uasset" 620
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Battle.umap" 621
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/BP_Character.uasset" 622
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Mesh/Zombie_Skeleton.uasset" 623
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Attack.uasset" 624
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Attack2.uasset" 625
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Death.uasset" 626
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Idle.uasset" 627
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Run.uasset" 628
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Scream.uasset" 629
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Animaions/Zombie_Walking.uasset" 630
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/AnimBP_Zombie.uasset" 631
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/AI_BB_Zombie.uasset" 632
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/BP_ZombieAIController.uasset" 633
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/BTTask_BlueprintBase_New.uasset" 634
+"../../../Engine/Content/VREditor/Sounds/UI/Click_on_Button_Cue.uasset" 635
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/AI_BT_Zombie.uasset" 636
+"../../../Engine/Content/EngineMaterials/Widget3DPassThrough_Masked_OneSided.uasset" 637
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/UI/Widget_ZombieHP.uasset" 638
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Police_Zombie_diffuse.uasset" 639
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Police_Zombie_normal.uasset" 640
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Police_Zombie_specular.uasset" 641
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Textures/Zombie.uasset" 642
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Mesh/Zombie_PhysicsAsset.uasset" 643
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Zombie/Mesh/Zombie.uasset" 644
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Zombie/BP_Zombie.uasset" 645
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_CameraManager.uasset" 646
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_PlayerController.uasset" 647
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Basic/BP_GameMode.uasset" 648
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/BP_GameMode.uasset" 649
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Level01_BuiltData.uasset" 650
+"../../../Engine/Content/BasicShapes/BasicShapeMaterial.uasset" 651
+"../../../Engine/Content/BasicShapes/Cube.uasset" 652
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Level01.umap" 653
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyGameState.uasset" 654
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/LobbyWidget.uasset" 655
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyPlayerController.uasset" 656
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyPlayerState.uasset" 657
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Lobby/BP_LobbyGameMode.uasset" 658
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Lobby_BuiltData.uasset" 659
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Lobby.umap" 660
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/UI/M_TitleMaterial.uasset" 661
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/UI/TitleWidget.uasset" 662
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/BP_TitlePlayerController.uasset" 663
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Blueprints/Title/BP_TitleGameMode.uasset" 664
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Title_BuiltData.uasset" 665
+"../../../../../../Users/skill/Documents/Unreal Projects/ProjectPG/Content/Levels/Title.umap" 666
+"../../../Engine/Content/Maps/Entry_BuiltData.uasset" 667
+"../../../Engine/Content/Maps/Entry.umap" 668
