@@ -31,13 +31,12 @@ void UItemSlotBase::OnItemButton()
 	if (player)
 	{
 		player->RemoveFromInventory(SelectedItem);
+		GetParent()->RemoveChild(this);
 	}
 	else
 	{
-		UE_LOG(LogClass, Warning, TEXT("Player Not Exist.."));
+		UE_LOG(LogClass, Warning, TEXT("Player Not Exist..!?"));
 	}
-
-	GetParent()->RemoveChild(this);
 }
 
 void UItemSlotBase::UpdateItemSlot(AMasterItem * Item)
