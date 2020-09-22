@@ -40,8 +40,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+	UPROPERTY(Replicated ,VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		int32 ItemIndex;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		FItemDataTable ItemData;
+
+	virtual void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > &OutLifetimeProps) const override;
+
+	UFUNCTION()
+	void ProcessBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	UFUNCTION()
+	void ProcessEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 };

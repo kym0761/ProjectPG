@@ -7,6 +7,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StreamableManager.h"
 #include "ItemDataTable.h"
+#include "Net/UnrealNetwork.h"
+#include "../Basic/BasicCharacter.h"
 // Sets default values
 AMasterItem::AMasterItem()
 {
@@ -17,6 +19,7 @@ AMasterItem::AMasterItem()
 
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 	SetRootComponent(Sphere);
+	Sphere->SetSphereRadius(150.0f);
 
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
 	ItemMesh->SetupAttachment(Sphere);
@@ -32,7 +35,11 @@ void AMasterItem::BeginPlay()
 
 	if (ItemComponent->ItemDataTable)
 	{
-		ItemIndex = FMath::RandRange(1,6)*10;
+
+		if (HasAuthority()) // only host can do
+		{
+			ItemIndex = FMath::RandRange(1, 6) * 10;
+		}
 
 		ItemData = ItemComponent->GetItemData(ItemIndex);
 
@@ -40,12 +47,12 @@ void AMasterItem::BeginPlay()
 		{
 			FStreamableManager loader;
 			ItemMesh->SetStaticMesh(loader.LoadSynchronous<UStaticMesh>(ItemData.ItemMesh));
-
-
 		}
-
+		
 	}
 
+	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AMasterItem::ProcessBeginOverlap);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &AMasterItem::ProcessEndOverlap);
 }
 
 // Called every frame
@@ -53,5 +60,34 @@ void AMasterItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AMasterItem::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	DOREPLIFETIME(AMasterItem, ItemIndex);
+}
+
+void AMasterItem::ProcessBeginOverlap(UPrimitiveComponent * OverlappedComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if (OtherActor->ActorHasTag(TEXT("Player")) )
+	{
+		ABasicCharacter* player = Cast<ABasicCharacter>(OtherActor);
+		if (player && player->IsLocallyControlled())
+		{
+			player->AddPickItem(this);
+		}
+	}
+}
+
+void AMasterItem::ProcessEndOverlap(UPrimitiveComponent * OverlappedComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor->ActorHasTag(TEXT("Player")))
+	{
+		ABasicCharacter* player = Cast<ABasicCharacter>(OtherActor);
+		if (player && player->IsLocallyControlled())
+		{
+			player->RemovePickItem(this);
+		}
+	}
 }
 

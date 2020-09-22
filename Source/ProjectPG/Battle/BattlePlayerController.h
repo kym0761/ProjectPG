@@ -7,6 +7,8 @@
 #include "BattlePlayerController.generated.h"
 
 class UBattleWidgetBase;
+class UItemToolTipBase;
+class UInventoryWidgetBase;
 /**
  * 
  */
@@ -22,6 +24,28 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 		UBattleWidgetBase* BattleWidgetObject;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+		TSubclassOf<UItemToolTipBase> ItemToolTipClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+		UItemToolTipBase* ItemToolTipObject;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+		TSubclassOf<UInventoryWidgetBase> InventoryWidgetClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+		UInventoryWidgetBase* InventoryWidgetObject;
+
+
 	virtual void BeginPlay() override;
 
+	virtual void SetupInputComponent() override;
+
+	void ShowItemToolTip(FString ItemName);
+
+	void HideItemToolTip();
+
+	void ShowInventory();
+	void HideInventory();
+	void ToggleInventory();
 };

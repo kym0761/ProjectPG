@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "BasicCharacter.generated.h"
+
 class USpringArmComponent;
 class UCameraComponent;
 class UWeaponComponent;
+class AMasterItem;
 UCLASS()
 class PROJECTPG_API ABasicCharacter : public ACharacter
 {
@@ -191,5 +193,27 @@ public:
 	UFUNCTION(Server, Reliable)
 		void C2S_SetReload(bool ReloadState);
 	void C2S_SetReload_Implementation(bool ReloadState);
+
+
+	TArray<AMasterItem*> PickItemList;
+
+	void AddPickItem(AMasterItem* AddItem);
+	void RemovePickItem(AMasterItem* RemoveItem);
+
+	void Pickup();
+
+
+	UFUNCTION(Server, Reliable)
+	void C2S_CheckPickupItem(AMasterItem* PickupItem);
+	void C2S_CheckPickupItem_Implementation(AMasterItem* PickupItem);
+
+	UFUNCTION(Client, Reliable)
+	void S2C_InsertItem(AMasterItem* PickupItem);
+	void S2C_InsertItem_Implementation(AMasterItem* PickupItem);
+
+	TArray<AMasterItem*> Inventory;
+
+	void AddToInventory(AMasterItem* Item);
+	void RemoveFromInventory(AMasterItem* Item);
 
 };

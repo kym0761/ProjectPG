@@ -3,8 +3,13 @@
 
 #include "BattleGameModeBase.h"
 #include "BattleGameStateBase.h"
+#include "BattlePlayerController.h"
 #include "../Basic/BasicCharacter.h"
 #include "BattlePlayerState.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Item/ItemPoint.h"
+#include "../Item/MasterItem.h"
+
 void ABattleGameModeBase::PostLogin(APlayerController * NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
@@ -31,6 +36,15 @@ void ABattleGameModeBase::Logout(AController * Exiting)
 void ABattleGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TArray<AActor*> itemPoints;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AItemPoint::StaticClass(), itemPoints);
+
+	for (int i = 0; i < itemPoints.Num(); ++i)
+	{
+		GetWorld()->SpawnActor<AMasterItem>(WantToSpawn,itemPoints[i]->GetActorTransform());
+
+	}
 
 }
 

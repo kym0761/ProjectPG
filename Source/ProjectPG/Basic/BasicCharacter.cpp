@@ -21,7 +21,7 @@
 #include "../Battle/BattlePlayerController.h"
 #include "../Battle/BattleGameModeBase.h"
 
-
+#include "../Item/MasterItem.h"
 
 // Sets default values
 ABasicCharacter::ABasicCharacter()
@@ -58,6 +58,8 @@ ABasicCharacter::ABasicCharacter()
 
 	CurrentHP = 100.0f;
 	MaxHP = 100.0f;
+
+	Tags.Add(TEXT("Player"));
 }
 
 // Called when the game starts or when spawned
@@ -104,6 +106,7 @@ void ABasicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("RightLean", IE_Pressed, this, &ABasicCharacter::StartRightLean);
 	PlayerInputComponent->BindAction("RightLean", IE_Released, this, &ABasicCharacter::EndRightLean);
 
+	PlayerInputComponent->BindAction("Pickup", IE_Released, this, &ABasicCharacter::Pickup);
 }
 
 void ABasicCharacter::MoveForward(float Value)
@@ -557,6 +560,69 @@ void ABasicCharacter::C2S_SetReload_Implementation(bool ReloadState)
 			PlayAnimMontage(ReloadMontage);
 		}
 	}
+}
+
+void ABasicCharacter::AddPickItem(AMasterItem * AddItem)
+{
+	PickItemList.Add(AddItem);
+	ABattlePlayerController* pc = Cast<ABattlePlayerController>(GetController());
+	if (pc)
+	{
+		pc->ShowItemToolTip(AddItem->ItemData.ItemName);
+	}
+
+}
+
+void ABasicCharacter::RemovePickItem(AMasterItem * RemoveItem)
+{
+	PickItemList.Remove(RemoveItem);
+	ABattlePlayerController* pc = Cast<ABattlePlayerController>(GetController());
+	if (pc)
+	{
+		if (PickItemList.Num() > 0)
+		{
+			pc->ShowItemToolTip(PickItemList[PickItemList.Num()-1]->ItemData.ItemName);
+		}
+		else
+		{
+			pc->HideItemToolTip();
+		}
+
+	}
+}
+
+void ABasicCharacter::Pickup()
+{
+	if (PickItemList.Num() > 0)
+	{
+		//Server Pickup Check
+		C2S_CheckPickupItem(PickItemList[PickItemList.Num() - 1]);
+	}
+}
+
+void ABasicCharacter::C2S_CheckPickupItem_Implementation(AMasterItem * PickupItem)
+{
+	if (PickupItem && !PickupItem->IsPendingKill())
+	{
+		S2C_InsertItem(PickupItem);
+		PickupItem->Destroy();
+	}
+
+}
+
+void ABasicCharacter::S2C_InsertItem_Implementation(AMasterItem * PickupItem)
+{
+	AddToInventory(PickupItem);
+}
+
+void ABasicCharacter::AddToInventory(AMasterItem * Item)
+{
+	Inventory.Add(Item);
+}
+
+void ABasicCharacter::RemoveFromInventory(AMasterItem * Item)
+{
+	Inventory.Remove(Item);
 }
 
 void ABasicCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
